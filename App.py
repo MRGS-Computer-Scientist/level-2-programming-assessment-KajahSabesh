@@ -9,21 +9,22 @@ class App():
         self.window.geometry(str(w_width)+ "x" + str(w_height))
         self.window.title("My App")
         
-        self.top_frame = Frame(background='red', width=w_width, height=100)
-        self.top_frame.pack()
+        
+        self.bottom_frame = Frame(background='black', width=150, height=1000)
+        self.bottom_frame.pack(side='left')
 
-        self.main_frame = Frame(background=bg_color, width=w_width, height=(w_height-200))
-        self.main_frame.pack()
-
-        self.bottom_frame = Frame(background='blue', width=w_width, height=100)
-        self.bottom_frame.pack(side='bottom')
-
-        self.home_button = Button(self.bottom_frame, text="Home", height=2, width=5, bg='green')
-        self.home_button.place(x=0,y=0)
-
-        self.exit_button = Button(self.bottom_frame, text="Exit", height=2, width=5, bg='green', command=exit)
-        self.exit_button.place(x=100,y=0)
-
+        self.home_button = Button(self.bottom_frame, text="Home", height=2, width=10, bg='red')
+        self.home_button.place(x=40,y=100)
+       
+        self.account_button = Button(self.bottom_frame, text="Account", height=2, width=10, bg='red')
+        self.account_button.place(x=40,y=50)
+        
+        self.calander_button = Button(self.bottom_frame, text="Calendar", height=2, width=10, bg='red')
+        self.account_button.place(x=40,y=200)
+        
+        self.exit_button = Button(self.bottom_frame, text="Exit", height=2, width=10, bg='red')
+        self.exit_button.place(x=40,y=250)
+        
         self.dirname = path.dirname(__file__)
         self.filename = path.join(self.dirname, 'images/')
 
