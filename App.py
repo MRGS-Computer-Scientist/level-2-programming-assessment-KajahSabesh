@@ -16,32 +16,32 @@ class App():
         
         button_font = ("Helvita", 12, "bold") 
 
-        self.home_button = Button(self.bottom_frame, text="Home", height=3, width=15, bg='red', font=button_font)
-        self.home_button.place(x=20,y=200)
+        self.home_button = Button(self.bottom_frame, text="Home", height=6, width=30, bg='red', font=button_font)
+        self.home_button.place(x=20,y=280)
        
-        self.account_button = Button(self.bottom_frame, text="Account", height=3, width=15, bg='red', font=button_font)
-        self.account_button.place(x=20,y=100)
+        self.account_button = Button(self.bottom_frame, text="Account", height=6, width=30, bg='red', font=button_font)
+        self.account_button.place(x=20,y=80)
         
-        self.calander_button = Button(self.bottom_frame, text="Calendar", height=3, width=15, bg='red', font=button_font)
-        self.calander_button.place(x=20,y=300)
+        self.calander_button = Button(self.bottom_frame, text="Calendar", height=6, width=30, bg='red', font=button_font)
+        self.calander_button.place(x=20,y=480)
         
-        self.shop_button = Button(self.bottom_frame, text='Shop', height=3, width=15, bg='red', font=button_font)
-        self.shop_button.place(x=20,y=400)
+        self.shop_button = Button(self.bottom_frame, text='Shop', height=6, width=30, bg='red', font=button_font)
+        self.shop_button.place(x=20,y=680)
         
-        self.statistics_button = Button(self.bottom_frame, text='Statistics', height=3, width=15, bg='red', font=button_font)
-        self.statistics_button.place(x=20, y=500)
-        
-        self.exit_button = Button(self.bottom_frame, text="Exit", height=3, width=15, bg='red', font=button_font)
-        self.exit_button.place(x=20,y=600)
+        self.exit_button = Button(self.bottom_frame, text="Exit", height=6, width=30, bg='red', font=button_font)
+        self.exit_button.place(x=20,y=880)
         
         self.space_label = Label(self.window, bg='black', width=20, height=5)
         self.space_label.pack()
         
-        self.activity_box = Label(self.window, text="Activities", bg='red', width=20, height=10)
-        self.activity_box.pack()
+        self.red_box1 = Label(self.window, bg='red', height=10, bd=0, highlightthickness=0, borderwidth=10)
+        self.red_box1.place(relx=0.5, rely=0.3, anchor=CENTER)
+        self.red_box1.config(width=30, font=("Helvetica", 14, "bold"), text="Activities", padx=20, pady=10, relief='solid', bd=3, borderwidth=2, highlightthickness=0, highlightbackground='black')
         
-        self.caloriesburnt_box = Label(self.window, text="Calories Burnt", bg='red', width=20, height=10)
-        self.caloriesburnt_box.pack()
+        self.red_box2 = Label(self.window, bg='red', height=10, bd=0, highlightthickness=0, borderwidth=10)
+        self.red_box2.place(relx=0.5, rely=0.7, anchor=CENTER)
+        self.red_box2.config(width=30, font=("Helvetica", 14, "bold"), text="Calories Burnt", padx=20, pady=10, relief='solid', bd=3, borderwidth=2, highlightthickness=0, highlightbackground='black')
+        
         
         self.dirname = path.dirname(__file__)
         self.filename = path.join(self.dirname, 'images/')
