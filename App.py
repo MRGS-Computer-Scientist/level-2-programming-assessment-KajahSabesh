@@ -34,6 +34,13 @@ class App():
         self.space_label = Label(self.window, bg='black', width=20, height=5)
         self.space_label.pack()
         
+        self.dirname = path.dirname(__file__)
+        self.filename = path.join(self.dirname, 'images/logo.png')
+        
+        self.logo_img = PhotoImage(file=self.filename)
+        self.logo_label = Label(self.window, image=self.logo_img, bg='black')
+        self.logo_label.pack(pady=20) 
+        
         self.red_box1 = Label(self.window, bg='red', height=10, bd=0, highlightthickness=0, borderwidth=10)
         self.red_box1.place(relx=0.5, rely=0.3, anchor=CENTER)
         self.red_box1.config(width=30, font=("Helvetica", 14, "bold"), text="Activities", padx=20, pady=10, relief='solid', bd=3, borderwidth=2, highlightthickness=0, highlightbackground='black')
