@@ -3,7 +3,7 @@ from app_setting import *
 from os import path
 from PIL import Image, ImageTk
 
-class App():
+class App(): 
 
     def __init__(self):
         self.window = Tk()
