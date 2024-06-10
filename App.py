@@ -7,61 +7,76 @@ class App():
 
     def __init__(self):
         self.window = Tk()
-        self.window.geometry(str(w_width) + "x" + str(w_height))
+
+        # Set the window size to resemble a mobile device
+        mobile_width = 375
+        mobile_height = 667
+        self.window.geometry(f"{mobile_width}x{mobile_height}")
+
+        # Center the window on the screen
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+        x_coordinate = int((screen_width / 2) - (mobile_width / 2))
+        y_coordinate = int((screen_height / 2) - (mobile_height / 2))
+        self.window.geometry(f"{mobile_width}x{mobile_height}+{x_coordinate}+{y_coordinate}")
+
         self.window.title("My App")
-        
         self.window.configure(background="black")
-        
-        self.bottom_frame = Frame(background='black', width=500, height=1000)
-        self.bottom_frame.pack(side='left')
-        
+
+        # Header frame for the logo
+        self.header_frame = Frame(self.window, background='black', height=100)
+        self.header_frame.pack(fill=X, side='top')
+
+        # Bottom frame for navigation buttons
+        self.bottom_frame = Frame(self.window, background='black', height=100)
+        self.bottom_frame.pack(fill=X, side='bottom')
+
         button_font = ("Helvetica", 12, "bold") 
 
-        self.home_button = Button(self.bottom_frame, text="Home", height=6, width=30, bg='red', font=button_font)
-        self.home_button.place(x=20, y=280)
-       
-        self.account_button = Button(self.bottom_frame, text="Account", height=6, width=30, bg='red', font=button_font)
-        self.account_button.place(x=20, y=80)
-        
-        self.calendar_button = Button(self.bottom_frame, text="Calendar", height=6, width=30, bg='red', font=button_font)
-        self.calendar_button.place(x=20, y=480)
-        
-        self.shop_button = Button(self.bottom_frame, text='Shop', height=6, width=30, bg='red', font=button_font)
-        self.shop_button.place(x=20, y=680)
-        
-        self.exit_button = Button(self.bottom_frame, text="Exit", height=6, width=30, bg='red', font=button_font, command=self.exit)
-        self.exit_button.place(x=20, y=880)
-        
-        self.space_label = Label(self.window, bg='black', width=20, height=5)
-        self.space_label.pack()
-        
+        self.home_button = Button(self.bottom_frame, text="Home", bg='red', font=button_font)
+        self.home_button.pack(side='left', fill=BOTH, expand=True)
+
+        self.account_button = Button(self.bottom_frame, text="Account", bg='red', font=button_font)
+        self.account_button.pack(side='left', fill=BOTH, expand=True)
+
+        self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font)
+        self.calendar_button.pack(side='left', fill=BOTH, expand=True)
+
+        self.shop_button = Button(self.bottom_frame, text='Shop', bg='red', font=button_font)
+        self.shop_button.pack(side='left', fill=BOTH, expand=True)
+
+        self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
+        self.exit_button.pack(side='left', fill=BOTH, expand=True)
+
+        # Load and display the logo
         self.dirname = path.dirname(__file__)
         self.filename = path.join(self.dirname, 'images/logo.png')
-        
         self.load_logo_image()
-        
-        self.red_box1 = Label(self.window, bg='red', height=10, bd=0, highlightthickness=0, borderwidth=10)
-        self.red_box1.place(relx=0.5, rely=0.3, anchor=CENTER)
-        self.red_box1.config(width=30, font=("Helvetica", 14, "bold"), text="Activities", padx=20, pady=10, relief='solid', bd=3, borderwidth=2, highlightthickness=0, highlightbackground='black')
-        
-        self.red_box2 = Label(self.window, bg='red', height=10, bd=0, highlightthickness=0, borderwidth=10)
-        self.red_box2.place(relx=0.5, rely=0.7, anchor=CENTER)
-        self.red_box2.config(width=30, font=("Helvetica", 14, "bold"), text="Calories Burnt", padx=20, pady=10, relief='solid', bd=3, borderwidth=2, highlightthickness=0, highlightbackground='black')
-        
+
+        # Main content area
+        self.content_frame = Frame(self.window, background='black')
+        self.content_frame.pack(fill=BOTH, expand=True)
+
+        self.red_box1 = Label(self.content_frame, bg='red', text="Activities", font=("Helvetica", 14, "bold"))
+        self.red_box1.pack(pady=20, fill=BOTH, expand=True)
+
+        self.red_box2 = Label(self.content_frame, bg='red', text="Calories Burnt", font=("Helvetica", 14, "bold"))
+        self.red_box2.pack(pady=20, fill=BOTH, expand=True)
+
         self.window.mainloop()
-        
+
     def load_logo_image(self):
         original_logo = Image.open(self.filename)
 
         # Resize the image to an appropriate size
-        resized_logo = original_logo.resize((100, 100), Image.LANCZOS)
+        resized_logo = original_logo.resize((50, 50), Image.LANCZOS)
 
         # Convert to a PhotoImage to use in Tkinter
         self.logo_img = ImageTk.PhotoImage(resized_logo)
 
         # Create a label to display the image
-        self.logo_label = Label(self.window, image=self.logo_img, bg='black')
-        self.logo_label.place(x= 900 , y= 10)
+        self.logo_label = Label(self.header_frame, image=self.logo_img, bg='black')
+        self.logo_label.pack(pady=20)
 
     def exit(self):
         self.window.destroy()
