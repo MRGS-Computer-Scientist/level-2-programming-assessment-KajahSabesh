@@ -9,7 +9,7 @@ class App():
 
         # Set the window size to resemble a mobile device
         mobile_width = 375
-        mobile_height = 800
+        mobile_height = 850
         self.window.geometry(f"{mobile_width}x{mobile_height}")
 
         # Center the window on the screen
@@ -29,13 +29,8 @@ class App():
         self.signup_frame.pack(fill=BOTH, expand=True)
         self.signup_frame.pack_forget()
         
-        self.result_frame = Frame(self.window, background='black')
-        self.result_frame.pack(fill=BOTH, expand=True)
-        self.result_frame.pack_forget()
-        
         self.build_main_page()
         self.build_signup_page()
-        self.build_result_page()
         
         self.window.mainloop()
         
@@ -75,6 +70,9 @@ class App():
         self.content_frame = Frame(self.window, background='black')
         self.content_frame.pack(fill=BOTH, expand=True)
 
+        self.welcome_label = Label(self.content_frame, bg='black', fg='white', text="", font=("Helvetica", 14, "bold"))
+        self.welcome_label.pack(pady=10)
+
         self.red_box1 = Label(self.content_frame, bg='red', text="Activities", font=("Helvetica", 14, "bold"))
         self.red_box1.pack(pady=20, fill=BOTH, expand=True)
 
@@ -105,7 +103,7 @@ class App():
 
         self.signup_ate = Entry(self.signup_frame, font=("Helvetica", 14))
         self.signup_ate.pack(pady=10)
-        self.signup_ate.insert(0, "What you ate(Whole food)")
+        self.signup_ate.insert(0, "What you ate")
 
         self.signup_km_ran = Entry(self.signup_frame, font=("Helvetica", 14))
         self.signup_km_ran.pack(pady=10)
@@ -113,42 +111,32 @@ class App():
 
         self.signup_build = Entry(self.signup_frame, font=("Helvetica", 14))
         self.signup_build.pack(pady=10)
-        self.signup_build.insert(0, "Build you are trying to achieve(Lean,Muscle,Bulk)")
+        self.signup_build.insert(0, "Build you are trying to achieve")
 
         Button(self.signup_frame, text="Submit", bg='green', fg='white', font=("Helvetica", 14, "bold"), command=self.calculate_calories).pack(pady=20)
         Button(self.signup_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
 
-    def build_result_page(self):
-        Label(self.result_frame, text="Results", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
-        
-        self.result_label = Label(self.result_frame, text="", font=("Helvetica", 18, "bold"), bg='black', fg='white')
-        self.result_label.pack(pady=10)
-        
-        Button(self.result_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
-
     def show_main_page(self):
         self.signup_frame.pack_forget()
-        self.result_frame.pack_forget()
         self.main_frame.pack(fill=BOTH, expand=True)
 
     def show_signup_page(self):
         self.main_frame.pack_forget()
-        self.result_frame.pack_forget()
         self.signup_frame.pack(fill=BOTH, expand=True)
-
-    def show_result_page(self):
-        self.signup_frame.pack_forget()
-        self.result_frame.pack(fill=BOTH, expand=True)
 
     def calculate_calories(self):
         try:
+            name = self.signup_name.get()
             km_ran = float(self.signup_km_ran.get())
             calories_burned = km_ran * 60  # 60 calories per km
-            self.result_label.config(text=f"You burned {calories_burned} calories today.")
-            self.show_result_page()
+
+            self.welcome_label.config(text=f"Welcome, {name}!")
+            self.red_box1.config(text=f"Activities: {km_ran} km ran")
+            self.red_box2.config(text=f"Calories Burnt: {calories_burned} calories")
+            
+            self.show_main_page()
         except ValueError:
-            self.result_label.config(text="Please enter a valid number for km ran.")
-            self.show_result_page()
+            self.welcome_label.config(text="Please enter valid information.")
 
     def load_logo_image(self):
         original_logo = Image.open(self.filename)
