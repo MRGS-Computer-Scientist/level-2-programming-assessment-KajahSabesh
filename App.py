@@ -1,5 +1,4 @@
 from tkinter import *
-from app_setting import *
 from os import path
 from PIL import Image, ImageTk
 
@@ -10,7 +9,7 @@ class App():
 
         # Set the window size to resemble a mobile device
         mobile_width = 375
-        mobile_height = 667
+        mobile_height = 750
         self.window.geometry(f"{mobile_width}x{mobile_height}")
 
         # Center the window on the screen
@@ -30,17 +29,11 @@ class App():
         self.signup_frame.pack(fill=BOTH, expand=True)
         self.signup_frame.pack_forget()
         
-        self.login_frame = Frame(self.window, backgrounf='black')
-        self.login_frame.pack(fill=BOTH, expand=True)
-        self.login_frame.pack_forget()
-        
         self.build_main_page()
         
         self.build_signup_page()
         
-        self.build_login_page()
-        
-        self.widnow.mainloop()
+        self.window.mainloop()
         
     def build_main_page(self):
         
@@ -84,58 +77,50 @@ class App():
         self.red_box2 = Label(self.content_frame, bg='red', text="Calories Burnt", font=("Helvetica", 14, "bold"))
         self.red_box2.pack(pady=20, fill=BOTH, expand=True)
         
-        self.login_button = Button(self.content_frame, text="Login", bg='blue', fg='white', command=self.show_login_page, font=button_font)
-        self.login_button.pack(pady=10)
-
         self.signup_button = Button(self.content_frame, text="Sign Up", bg='green', fg='white', command=self.show_signup_page, font=button_font)
         self.signup_button.pack(pady=10)
 
     def build_signup_page(self):
         Label(self.signup_frame, text="Sign Up", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
 
-        self.signup_username = Entry(self.signup_frame, font=("Helvetica", 14))
-        self.signup_username.pack(pady=10)
-        self.signup_username.insert(0, "Username")
+        self.signup_name = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_name.pack(pady=10)
+        self.signup_name.insert(0, "Name")
 
-        self.signup_email = Entry(self.signup_frame, font=("Helvetica", 14))
-        self.signup_email.pack(pady=10)
-        self.signup_email.insert(0, "Email")
+        self.signup_age = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_age.pack(pady=10)
+        self.signup_age.insert(0, "Age")
 
-        self.signup_password = Entry(self.signup_frame, font=("Helvetica", 14), show="*")
-        self.signup_password.pack(pady=10)
-        self.signup_password.insert(0, "Password")
+        self.signup_weight = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_weight.pack(pady=10)
+        self.signup_weight.insert(0, "Weight")
 
-        Button(self.signup_frame, text="Sign Up", bg='green', fg='white', font=("Helvetica", 14, "bold")).pack(pady=20)
+        self.signup_height = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_height.pack(pady=10)
+        self.signup_height.insert(0, "Height")
+
+        self.signup_ate = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_ate.pack(pady=10)
+        self.signup_ate.insert(0, "What you ate")
+
+        self.signup_km_ran = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_km_ran.pack(pady=10)
+        self.signup_km_ran.insert(0, "How many km you ran today")
+
+        self.signup_build = Entry(self.signup_frame, font=("Helvetica", 14))
+        self.signup_build.pack(pady=10)
+        self.signup_build.insert(0, " What build you are trying to achieve")
+
+        Button(self.signup_frame, text="Submit", bg='green', fg='white', font=("Helvetica", 14, "bold")).pack(pady=20)
         Button(self.signup_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
-
-    def build_login_page(self):
-        Label(self.login_frame, text="Login", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
-
-        self.login_username = Entry(self.login_frame, font=("Helvetica", 14))
-        self.login_username.pack(pady=10)
-        self.login_username.insert(0, "Username")
-
-        self.login_password = Entry(self.login_frame, font=("Helvetica", 14), show="*")
-        self.login_password.pack(pady=10)
-        self.login_password.insert(0, "Password")
-
-        Button(self.login_frame, text="Login", bg='blue', fg='white', font=("Helvetica", 14, "bold")).pack(pady=20)
-        Button(self.login_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
 
     def show_main_page(self):
         self.signup_frame.pack_forget()
-        self.login_frame.pack_forget()
         self.main_frame.pack(fill=BOTH, expand=True)
 
     def show_signup_page(self):
         self.main_frame.pack_forget()
-        self.login_frame.pack_forget()
         self.signup_frame.pack(fill=BOTH, expand=True)
-
-    def show_login_page(self):
-        self.main_frame.pack_forget()
-        self.signup_frame.pack_forget()
-        self.login_frame.pack(fill=BOTH, expand=True)
 
     def load_logo_image(self):
         original_logo = Image.open(self.filename)
@@ -157,4 +142,3 @@ class App():
 if __name__ == "__main__":
     app = App()
 
-       
