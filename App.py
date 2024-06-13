@@ -101,10 +101,6 @@ class App():
         self.signup_height.pack(pady=10)
         self.signup_height.insert(0, "Height")
 
-        self.signup_ate = Entry(self.signup_frame, font=("Helvetica", 14))
-        self.signup_ate.pack(pady=10)
-        self.signup_ate.insert(0, "What you ate")
-
         self.signup_km_ran = Entry(self.signup_frame, font=("Helvetica", 14))
         self.signup_km_ran.pack(pady=10)
         self.signup_km_ran.insert(0, "How many km you ran today")
