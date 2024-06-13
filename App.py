@@ -49,13 +49,10 @@ class App():
         self.home_button = Button(self.bottom_frame, text="Home", bg='red', font=button_font)
         self.home_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.account_button = Button(self.bottom_frame, text="Account", bg='red', font=button_font)
-        self.account_button.pack(side='left', fill=BOTH, expand=True)
-
         self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font)
         self.calendar_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.shop_button = Button(self.bottom_frame, text='Shop', bg='red', font=button_font)
+        self.shop_button = Button(self.bottom_frame, text='Diet', bg='red', font=button_font)
         self.shop_button.pack(side='left', fill=BOTH, expand=True)
 
         self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
