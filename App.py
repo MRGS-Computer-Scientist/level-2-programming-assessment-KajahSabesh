@@ -52,7 +52,7 @@ class App():
         self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font)
         self.calendar_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.shop_button = Button(self.bottom_frame, text='Diet', bg='red', font=button_font)
+        self.shop_button = Button(self.bottom_frame, text='Diet/Excercise', bg='red', font=button_font)
         self.shop_button.pack(side='left', fill=BOTH, expand=True)
 
         self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
