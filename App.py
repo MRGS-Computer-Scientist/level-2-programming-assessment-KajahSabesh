@@ -2,7 +2,7 @@ from tkinter import *
 from os import path
 from PIL import Image, ImageTk
 
-class App(): 
+class App():
 
     def __init__(self):
         self.window = Tk()
@@ -24,18 +24,23 @@ class App():
 
         self.main_frame = Frame(self.window, background='black')
         self.main_frame.pack(fill=BOTH, expand=True)
-        
+       
         self.signup_frame = Frame(self.window, background='black')
         self.signup_frame.pack(fill=BOTH, expand=True)
         self.signup_frame.pack_forget()
-        
+
+        self.calendar_frame = Frame(self.window, background='black')
+        self.calendar_frame.pack(fill=BOTH, expand=True)
+        self.calendar_frame.pack_forget()
+       
         self.build_main_page()
         self.build_signup_page()
-        
+        self.build_calendar_page()
+       
         self.window.mainloop()
-        
+       
     def build_main_page(self):
-        
+       
         # Header frame for the logo
         self.header_frame = Frame(self.window, background='black', height=100)
         self.header_frame.pack(fill=X, side='top')
@@ -44,15 +49,15 @@ class App():
         self.bottom_frame = Frame(self.window, background='black', height=100)
         self.bottom_frame.pack(fill=X, side='bottom')
 
-        button_font = ("Helvetica", 12, "bold") 
+        button_font = ("Helvetica", 12, "bold")
 
-        self.home_button = Button(self.bottom_frame, text="Home", bg='red', font=button_font)
+        self.home_button = Button(self.bottom_frame, text="Home", bg='red', font=button_font, command=self.show_main_page)
         self.home_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font)
+        self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font, command=self.show_calendar_page)
         self.calendar_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.shop_button = Button(self.bottom_frame, text='Diet/Excercise', bg='red', font=button_font)
+        self.shop_button = Button(self.bottom_frame, text='Diet', bg='red', font=button_font)
         self.shop_button.pack(side='left', fill=BOTH, expand=True)
 
         self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
@@ -75,7 +80,7 @@ class App():
 
         self.red_box2 = Label(self.content_frame, bg='red', text="Calories Burnt", font=("Helvetica", 14, "bold"))
         self.red_box2.pack(pady=20, fill=BOTH, expand=True)
-        
+       
         self.signup_button = Button(self.content_frame, text="Sign Up", bg='green', fg='white', command=self.show_signup_page, font=button_font)
         self.signup_button.pack(pady=10)
 
@@ -109,13 +114,28 @@ class App():
         Button(self.signup_frame, text="Submit", bg='green', fg='white', font=("Helvetica", 14, "bold"), command=self.calculate_calories).pack(pady=20)
         Button(self.signup_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
 
+    def build_calendar_page(self):
+        Label(self.calendar_frame, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
+
+        self.calendar_label = Label(self.calendar_frame, text="Calendar will be here", font=("Helvetica", 14), bg='black', fg='white')
+        self.calendar_label.pack(pady=10)
+
+        Button(self.calendar_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
+
     def show_main_page(self):
         self.signup_frame.pack_forget()
+        self.calendar_frame.pack_forget()
         self.main_frame.pack(fill=BOTH, expand=True)
 
     def show_signup_page(self):
         self.main_frame.pack_forget()
+        self.calendar_frame.pack_forget()
         self.signup_frame.pack(fill=BOTH, expand=True)
+
+    def show_calendar_page(self):
+        self.main_frame.pack_forget()
+        self.signup_frame.pack_forget()
+        self.calendar_frame.pack(fill=BOTH, expand=True)
 
     def calculate_calories(self):
         try:
@@ -126,7 +146,7 @@ class App():
             self.welcome_label.config(text=f"Welcome, {name}!")
             self.red_box1.config(text=f"Activities: {km_ran} km ran")
             self.red_box2.config(text=f"Calories Burnt: {calories_burned} calories")
-            
+           
             self.show_main_page()
         except ValueError:
             self.welcome_label.config(text="Please enter valid information.")
