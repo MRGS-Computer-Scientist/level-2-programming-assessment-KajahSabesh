@@ -28,14 +28,9 @@ class App():
         self.signup_frame = Frame(self.window, background='black')
         self.signup_frame.pack(fill=BOTH, expand=True)
         self.signup_frame.pack_forget()
-
-        self.calendar_frame = Frame(self.window, background='black')
-        self.calendar_frame.pack(fill=BOTH, expand=True)
-        self.calendar_frame.pack_forget()
        
         self.build_main_page()
         self.build_signup_page()
-        self.build_calendar_page()
        
         self.window.mainloop()
        
@@ -114,28 +109,27 @@ class App():
         Button(self.signup_frame, text="Submit", bg='green', fg='white', font=("Helvetica", 14, "bold"), command=self.calculate_calories).pack(pady=20)
         Button(self.signup_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
 
-    def build_calendar_page(self):
-        Label(self.calendar_frame, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
-
-        self.calendar_label = Label(self.calendar_frame, text="Calendar will be here", font=("Helvetica", 14), bg='black', fg='white')
-        self.calendar_label.pack(pady=10)
-
-        Button(self.calendar_frame, text="Back to Home", bg='red', fg='white', command=self.show_main_page, font=("Helvetica", 14, "bold")).pack(pady=10)
-
     def show_main_page(self):
         self.signup_frame.pack_forget()
-        self.calendar_frame.pack_forget()
         self.main_frame.pack(fill=BOTH, expand=True)
 
     def show_signup_page(self):
         self.main_frame.pack_forget()
-        self.calendar_frame.pack_forget()
         self.signup_frame.pack(fill=BOTH, expand=True)
 
     def show_calendar_page(self):
-        self.main_frame.pack_forget()
-        self.signup_frame.pack_forget()
-        self.calendar_frame.pack(fill=BOTH, expand=True)
+        # Create a new window for the calendar
+        calendar_window = Toplevel(self.window)
+        calendar_window.title("Calendar")
+        calendar_window.geometry(f"375x850+{int((self.window.winfo_screenwidth() / 2) - (375 / 2))}+{int((self.window.winfo_screenheight() / 2) - (850 / 2))}")
+        calendar_window.configure(background="black")
+
+        Label(calendar_window, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
+        
+        self.calendar_label = Label(calendar_window, text="Calendar will be here", font=("Helvetica", 14), bg='black', fg='white')
+        self.calendar_label.pack(pady=10)
+
+        Button(calendar_window, text="Close", bg='red', fg='white', command=calendar_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
 
     def calculate_calories(self):
         try:
