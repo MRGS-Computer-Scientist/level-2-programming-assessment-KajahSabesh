@@ -1,6 +1,7 @@
 from tkinter import *
 from os import path
 from PIL import Image, ImageTk
+from datetime import datetime, timedelta
 
 class App():
 
@@ -126,10 +127,29 @@ class App():
 
         Label(calendar_window, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
         
-        self.calendar_label = Label(calendar_window, text="Calendar will be here", font=("Helvetica", 14), bg='black', fg='white')
-        self.calendar_label.pack(pady=10)
+        self.current_date = datetime.now()
+        
+        self.calendar_frame = Frame(calendar_window, bg='black')
+        self.calendar_frame.pack(pady=10)
+
+        self.prev_button = Button(self.calendar_frame, text="←", command=self.prev_day, font=("Helvetica", 14, "bold"))
+        self.prev_button.grid(row=0, column=0, padx=20)
+        
+        self.date_label = Label(self.calendar_frame, text=self.current_date.strftime('%Y-%m-%d'), font=("Helvetica", 14), bg='black', fg='white')
+        self.date_label.grid(row=0, column=1, padx=20)
+        
+        self.next_button = Button(self.calendar_frame, text="→", command=self.next_day, font=("Helvetica", 14, "bold"))
+        self.next_button.grid(row=0, column=2, padx=20)
 
         Button(calendar_window, text="Close", bg='red', fg='white', command=calendar_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
+
+    def prev_day(self):
+        self.current_date -= timedelta(days=1)
+        self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
+
+    def next_day(self):
+        self.current_date += timedelta(days=1)
+        self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
 
     def calculate_calories(self):
         try:
