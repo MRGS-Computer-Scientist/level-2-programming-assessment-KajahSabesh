@@ -33,16 +33,19 @@ class App():
         self.build_main_page()
         self.build_signup_page()
        
+        self.workout_routines = {}
+        self.current_date = datetime.now()
+       
         self.window.mainloop()
        
     def build_main_page(self):
        
         # Header frame for the logo
-        self.header_frame = Frame(self.window, background='black', height=100)
+        self.header_frame = Frame(self.main_frame, background='black', height=100)
         self.header_frame.pack(fill=X, side='top')
 
         # Bottom frame for navigation buttons
-        self.bottom_frame = Frame(self.window, background='black', height=100)
+        self.bottom_frame = Frame(self.main_frame, background='black', height=100)
         self.bottom_frame.pack(fill=X, side='bottom')
 
         button_font = ("Helvetica", 12, "bold")
@@ -65,7 +68,7 @@ class App():
         self.load_logo_image()
 
         # Main content area
-        self.content_frame = Frame(self.window, background='black')
+        self.content_frame = Frame(self.main_frame, background='black')
         self.content_frame.pack(fill=BOTH, expand=True)
 
         self.welcome_label = Label(self.content_frame, bg='black', fg='white', text="", font=("Helvetica", 14, "bold"))
@@ -120,16 +123,14 @@ class App():
 
     def show_calendar_page(self):
         # Create a new window for the calendar
-        calendar_window = Toplevel(self.window)
-        calendar_window.title("Calendar")
-        calendar_window.geometry(f"375x850+{int((self.window.winfo_screenwidth() / 2) - (375 / 2))}+{int((self.window.winfo_screenheight() / 2) - (850 / 2))}")
-        calendar_window.configure(background="black")
+        self.calendar_window = Toplevel(self.window)
+        self.calendar_window.title("Calendar")
+        self.calendar_window.geometry(f"375x850+{int((self.window.winfo_screenwidth() / 2) - (375 / 2))}+{int((self.window.winfo_screenheight() / 2) - (850 / 2))}")
+        self.calendar_window.configure(background="black")
 
-        Label(calendar_window, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
+        Label(self.calendar_window, text="Calendar", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
         
-        self.current_date = datetime.now()
-        
-        self.calendar_frame = Frame(calendar_window, bg='black')
+        self.calendar_frame = Frame(self.calendar_window, bg='black')
         self.calendar_frame.pack(pady=10)
 
         self.prev_button = Button(self.calendar_frame, text="←", command=self.prev_day, font=("Helvetica", 14, "bold"))
@@ -141,15 +142,32 @@ class App():
         self.next_button = Button(self.calendar_frame, text="→", command=self.next_day, font=("Helvetica", 14, "bold"))
         self.next_button.grid(row=0, column=2, padx=20)
 
-        Button(calendar_window, text="Close", bg='red', fg='white', command=calendar_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
+        self.workout_text = Text(self.calendar_window, height=15, width=40, font=("Helvetica", 14), bg='white')
+        self.workout_text.pack(pady=20)
+
+        if self.current_date.strftime('%Y-%m-%d') in self.workout_routines:
+            self.workout_text.insert(END, self.workout_routines[self.current_date.strftime('%Y-%m-%d')])
+
+        Button(self.calendar_window, text="Save", bg='green', fg='white', command=self.save_workout, font=("Helvetica", 14, "bold")).pack(pady=10)
+        Button(self.calendar_window, text="Close", bg='red', fg='white', command=self.calendar_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
 
     def prev_day(self):
         self.current_date -= timedelta(days=1)
         self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
+        self.update_workout_text()
 
     def next_day(self):
         self.current_date += timedelta(days=1)
         self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
+        self.update_workout_text()
+
+    def update_workout_text(self):
+        self.workout_text.delete(1.0, END)
+        if self.current_date.strftime('%Y-%m-%d') in self.workout_routines:
+            self.workout_text.insert(END, self.workout_routines[self.current_date.strftime('%Y-%m-%d')])
+
+    def save_workout(self):
+        self.workout_routines[self.current_date.strftime('%Y-%m-%d')] = self.workout_text.get(1.0, END).strip()
 
     def calculate_calories(self):
         try:
