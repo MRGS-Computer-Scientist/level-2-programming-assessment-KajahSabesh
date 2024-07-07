@@ -143,7 +143,7 @@ class App():
         self.next_button.grid(row=0, column=2, padx=20)
 
         # Instructional label for the workout text box
-        Label(self.calendar_window, text="Enter your workout routine for the selected day below:", font=("Helvetica", 14), bg='black', fg='white').pack(pady=10)
+        Label(self.calendar_window, text="Enter your workout routine for the selected day below:", font=("Helvetica", 10), bg='black', fg='white').pack(pady=10)
 
         self.workout_text = Text(self.calendar_window, height=15, width=40, font=("Helvetica", 14), bg='white')
         self.workout_text.pack(pady=20)
