@@ -56,7 +56,7 @@ class App():
         self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font, command=self.show_calendar_page)
         self.calendar_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.shop_button = Button(self.bottom_frame, text='Diet', bg='red', font=button_font)
+        self.shop_button = Button(self.bottom_frame, text='Diet and Exercise', bg='red', font=button_font, command=self.show_diet_page)
         self.shop_button.pack(side='left', fill=BOTH, expand=True)
 
         self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
@@ -143,7 +143,7 @@ class App():
         self.next_button.grid(row=0, column=2, padx=20)
 
         # Instructional label for the workout text box
-        Label(self.calendar_window, text="Enter your workout routine for the selected day below:", font=("Helvetica", 10), bg='black', fg='white').pack(pady=10)
+        Label(self.calendar_window, text="Enter your workout routine for the selected day below:", font=("Helvetica", 11), bg='black', fg='white').pack(pady=10)
 
         self.workout_text = Text(self.calendar_window, height=15, width=40, font=("Helvetica", 14), bg='white')
         self.workout_text.pack(pady=20)
@@ -153,6 +153,17 @@ class App():
 
         Button(self.calendar_window, text="Save", bg='green', fg='white', command=self.save_workout, font=("Helvetica", 14, "bold")).pack(pady=10)
         Button(self.calendar_window, text="Close", bg='red', fg='white', command=self.calendar_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
+
+    def show_diet_page(self):
+        # Create a new window for the diet
+        self.diet_window = Toplevel(self.window)
+        self.diet_window.title("Diet and Exercise")
+        self.diet_window.geometry(f"375x850+{int((self.window.winfo_screenwidth() / 2) - (375 / 2))}+{int((self.window.winfo_screenheight() / 2) - (850 / 2))}")
+        self.diet_window.configure(background="black")
+
+        Label(self.diet_window, text="Diet and Exercise", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
+
+        Button(self.diet_window, text="Close", bg='red', fg='white', command=self.diet_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
 
     def prev_day(self):
         self.current_date -= timedelta(days=1)
