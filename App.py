@@ -56,7 +56,7 @@ class App():
         self.calendar_button = Button(self.bottom_frame, text="Calendar", bg='red', font=button_font, command=self.show_calendar_page)
         self.calendar_button.pack(side='left', fill=BOTH, expand=True)
 
-        self.shop_button = Button(self.bottom_frame, text='Diet and Exercise', bg='red', font=button_font, command=self.show_diet_page)
+        self.shop_button = Button(self.bottom_frame, text='Diet', bg='red', font=button_font, command=self.show_diet_page)
         self.shop_button.pack(side='left', fill=BOTH, expand=True)
 
         self.exit_button = Button(self.bottom_frame, text="Exit", bg='red', font=button_font, command=self.exit)
@@ -163,7 +163,23 @@ class App():
 
         Label(self.diet_window, text="Diet and Exercise", font=("Helvetica", 24, "bold"), bg='black', fg='white').pack(pady=20)
 
+        # Survey for selecting focus
+        self.focus_var = StringVar(value="general_health")
+        
+        Label(self.diet_window, text="What do you want to focus on?", font=("Helvetica", 14), bg='black', fg='white').pack(pady=10)
+
+        Radiobutton(self.diet_window, text="General Health", variable=self.focus_var, value="general_health", font=("Helvetica", 14), bg='black', fg='white', selectcolor='black').pack(anchor=W, padx=20)
+        Radiobutton(self.diet_window, text="Endurance Improvement", variable=self.focus_var, value="endurance_improvement", font=("Helvetica", 14), bg='black', fg='white', selectcolor='black').pack(anchor=W, padx=20)
+        Radiobutton(self.diet_window, text="Muscle Gain", variable=self.focus_var, value="muscle_gain", font=("Helvetica", 14), bg='black', fg='white', selectcolor='black').pack(anchor=W, padx=20)
+        Radiobutton(self.diet_window, text="Weight Loss", variable=self.focus_var, value="weight_loss", font=("Helvetica", 14), bg='black', fg='white', selectcolor='black').pack(anchor=W, padx=20)
+
+        Button(self.diet_window, text="Submit", bg='green', fg='white', command=self.submit_focus, font=("Helvetica", 14, "bold")).pack(pady=20)
         Button(self.diet_window, text="Close", bg='red', fg='white', command=self.diet_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
+
+    def submit_focus(self):
+        focus = self.focus_var.get()
+        print(f"User selected focus: {focus}")
+        # You can add more functionality here to handle the user's selection
 
     def prev_day(self):
         self.current_date -= timedelta(days=1)
