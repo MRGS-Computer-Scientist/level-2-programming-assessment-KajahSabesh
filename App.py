@@ -165,7 +165,7 @@ class App():
 
         # Survey for selecting focus
         self.focus_var = StringVar(value="general_health")
-        
+
         Label(self.diet_window, text="What do you want to focus on?", font=("Helvetica", 14), bg='black', fg='white').pack(pady=10)
 
         Radiobutton(self.diet_window, text="General Health", variable=self.focus_var, value="general_health", font=("Helvetica", 14), bg='black', fg='white', selectcolor='black').pack(anchor=W, padx=20)
@@ -176,59 +176,67 @@ class App():
         Button(self.diet_window, text="Submit", bg='green', fg='white', command=self.submit_focus, font=("Helvetica", 14, "bold")).pack(pady=20)
         Button(self.diet_window, text="Close", bg='red', fg='white', command=self.diet_window.destroy, font=("Helvetica", 14, "bold")).pack(pady=10)
 
-    def submit_focus(self):
-        focus = self.focus_var.get()
-        print(f"User selected focus: {focus}")
-        # You can add more functionality here to handle the user's selection
+        # Text box to display diet and exercise recommendations
+        self.recommendation_text = Text(self.diet_window, height=15, width=40, font=("Helvetica", 12), bg='white')
+        self.recommendation_text.pack(pady=20)
+
+    def load_logo_image(self):
+        self.logo_image = Image.open(self.filename)
+        self.logo_image = self.logo_image.resize((150, 150), Image.LANCZOS)
+        self.logo_photo = ImageTk.PhotoImage(self.logo_image)
+
+        self.logo_label = Label(self.header_frame, image=self.logo_photo, bg='black')
+        self.logo_label.pack(pady=10)
+
+    def calculate_calories(self):
+        print(f"Name: {self.signup_name.get()}")
+        print(f"Age: {self.signup_age.get()}")
+        print(f"Weight: {self.signup_weight.get()}")
+        print(f"Height: {self.signup_height.get()}")
+        print(f"KM Ran: {self.signup_km_ran.get()}")
+        print(f"Build Goal: {self.signup_build.get()}")
+
+        self.show_main_page()
 
     def prev_day(self):
         self.current_date -= timedelta(days=1)
         self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
-        self.update_workout_text()
+        self.load_workout()
 
     def next_day(self):
         self.current_date += timedelta(days=1)
         self.date_label.config(text=self.current_date.strftime('%Y-%m-%d'))
-        self.update_workout_text()
-
-    def update_workout_text(self):
-        self.workout_text.delete(1.0, END)
-        if self.current_date.strftime('%Y-%m-%d') in self.workout_routines:
-            self.workout_text.insert(END, self.workout_routines[self.current_date.strftime('%Y-%m-%d')])
+        self.load_workout()
 
     def save_workout(self):
-        self.workout_routines[self.current_date.strftime('%Y-%m-%d')] = self.workout_text.get(1.0, END).strip()
+        date_str = self.current_date.strftime('%Y-%m-%d')
+        self.workout_routines[date_str] = self.workout_text.get("1.0", END).strip()
+        print(f"Saved workout for {date_str}: {self.workout_routines[date_str]}")
 
-    def calculate_calories(self):
-        try:
-            name = self.signup_name.get()
-            km_ran = float(self.signup_km_ran.get())
-            calories_burned = km_ran * 60  # 60 calories per km
+    def load_workout(self):
+        date_str = self.current_date.strftime('%Y-%m-%d')
+        self.workout_text.delete("1.0", END)
+        if date_str in self.workout_routines:
+            self.workout_text.insert(END, self.workout_routines[date_str])
+        print(f"Loaded workout for {date_str}: {self.workout_text.get('1.0', END).strip()}")
 
-            self.welcome_label.config(text=f"Welcome, {name}!")
-            self.red_box1.config(text=f"Activities: {km_ran} km ran")
-            self.red_box2.config(text=f"Calories Burnt: {calories_burned} calories")
-           
-            self.show_main_page()
-        except ValueError:
-            self.welcome_label.config(text="Please enter valid information.")
+    def submit_focus(self):
+        focus = self.focus_var.get()
+        print(f"User selected focus: {focus}")
 
-    def load_logo_image(self):
-        original_logo = Image.open(self.filename)
+        recommendations = {
+            "general_health": "For general health eat a eat a balanced diet rich in fruits, vegetables, whole grains, and lean proteins thus have a breakfast of porridge with fruit, for lunch have tuna sandwitches and for dinner have brown rice, mixed vegetables, and chicken. For exercise I would suggest going for a walk, run, jog or cycling for 3 hours every week or using a treadmill for the same effect",
+            "endurance_improvement": "For endurence improvement eat a diet consisting of complex carbohydrates, lean proteins, and healthy fats thus have a breakfast of toast with poached eggs, for lunch have chicken breast with quinoa, brocolis and tomatoes ; and for dinner have baked salmon with potato mash. In order to increase endurence I would suggest doing single squats, forward-backward sprints, burbee-pullups and going on the treadmill every week.",
+            "muscle_gain": "For muscle gain, consume a diet high in protein, healthy fats, and complex carbs thus for breakfast have scrambles eggs, oatmeal and fruit, for lunch have a beef burger, white rise, broccoli and for dinner have salmon, quinoa, asaragys. Include strength training exercises like weight lifting, resistance training, and bodyweight exercises. Aim to work each muscle group twice a week thus at the gym thus at the gym do light cardio, barbell bench presses, incline dumbbell presses, bicep curls, leg curls, leg press, dumbbell lateranl rises.",
+            "weight_loss": "To lose weight, focus on a diet low in refined carbs, sugars, and unhealthy fats. Include plenty of fruits, vegetables, and lean proteins thus for breakfast have tea and fruit, fo lunch have a beef burger and vegetables and for dinner have stir fried. Incorporate a mix of aerobic exercises and strength training thus at the gym do jumping jacks, burpees, use the starimaster "
+        }
 
-        # Resize the image to an appropriate size
-        resized_logo = original_logo.resize((50, 50), Image.LANCZOS)
-
-        # Convert to a PhotoImage to use in Tkinter
-        self.logo_img = ImageTk.PhotoImage(resized_logo)
-
-        # Create a label to display the image
-        self.logo_label = Label(self.header_frame, image=self.logo_img, bg='black')
-        self.logo_label.pack(pady=20)
+        self.recommendation_text.delete(1.0, END)
+        self.recommendation_text.insert(END, recommendations[focus])
 
     def exit(self):
+        self.window.quit()
         self.window.destroy()
 
-# Run the application
 if __name__ == "__main__":
     app = App()
